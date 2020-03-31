@@ -5,7 +5,7 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>Frogger2d</name>
             <source-roots>
-                <root id="src.rsc.dir"/>
+                <root id="src.rsc.dir" name="Resource Packages"/>
                 <root id="src.dir"/>
             </source-roots>
             <test-roots>
