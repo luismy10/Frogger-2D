@@ -42,7 +42,6 @@ public class Menu {
         fontImage.drawText(g2d, "PROGRAMMED BY O.L (C) 2017", 20, 360, Color.WHITE);
         fontImage.drawText(g2d, "ORIGINAL GAME BY", 90, 420, Color.WHITE);
         fontImage.drawText(g2d, "KONAMI  ©  1981", 100, 460, Color.WHITE);
-
     }
 
 }
