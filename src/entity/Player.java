@@ -11,11 +11,17 @@ public class Player {
 
     public Image[] playerone;
     private int dx;
-    private int dy;
+    private double dy;
     private int x;
     private int y;
     private int speedfrog;
     private int iterador;
+    
+    private boolean up;
+    private boolean down;
+    private double moveSpeed;
+    private double maxSpeed;
+    private double stopSpeed;
 
     public Player() {
         playerone = new Image[3];
@@ -27,6 +33,10 @@ public class Player {
 
         speedfrog = 1;
         iterador = 0;
+        
+        moveSpeed = 0.6;
+        maxSpeed = 4.2;
+        stopSpeed = 0.30;
     }
 
     public void update(double delta) {
@@ -47,20 +57,40 @@ public class Player {
     }
 
     public void mover() {
-        x += dx;
-        y += dy;
+        if(up){
+            dy -= moveSpeed;
+            if(dy < -maxSpeed){
+                dy = -maxSpeed;
+            }
+        }else if(down){
+            dy += moveSpeed;
+            if(dy > maxSpeed){
+                dy = maxSpeed;
+            }
+        }else{
+            if(dy > 0){
+                dy -= stopSpeed;
+                if(dy < 0){
+                    dy = 0;
+                }
+            }else if(dy < 0){
+                dy += stopSpeed;
+                if(dy > 0){
+                    dy = 0;
+                }
+            }
+        }
+        
+        x = dx;
+        y += (int) dy;
     }
 
     public void keypressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            dy = -2;
-            iterador++;
-            if(iterador == 3){
-                iterador = 0;
-            }
+        if (e.getKeyCode() == KeyEvent.VK_UP) {            
+            up=true;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            dy = 2;
+            down=true;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             dx = -2;
@@ -72,11 +102,10 @@ public class Player {
 
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            dy = 0;
-            iterador = 0;
+            up=false;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            dy = 0;
+            down=false;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             dx = 0;
