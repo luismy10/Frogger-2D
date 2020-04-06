@@ -8,8 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import loaders.Menu;
-import loaders.SplashScreen;
+import states.Manager;
 
 public class WindowCanvas extends Canvas implements Runnable, KeyListener {
 
@@ -27,9 +26,8 @@ public class WindowCanvas extends Canvas implements Runnable, KeyListener {
     private BufferedImage image;
     private Graphics2D g2d;
 
-    // game state manager
-//    private SplashScreen splashScreen;
-    private Menu menu;
+    // manager
+    private Manager manager;
 
     public WindowCanvas() {
         super();
@@ -47,8 +45,10 @@ public class WindowCanvas extends Canvas implements Runnable, KeyListener {
     private void init() {
         image = new BufferedImage(WIDTHCANVAS, HEIGHTCANVAS, BufferedImage.TYPE_INT_RGB);
         g2d = (Graphics2D) image.getGraphics();
-        // splashScreen = new SplashScreen();
-        menu = new Menu();
+//         splashScreen = new SplashScreen();
+//        menu = new Menu();
+        manager = new Manager();
+    
     }
 
     public void start() {
@@ -90,7 +90,7 @@ public class WindowCanvas extends Canvas implements Runnable, KeyListener {
     }
 
     private void update(double delta) {
-        menu.update(delta);
+        manager.update(delta);
     }
 
     private void render() {
@@ -105,7 +105,7 @@ public class WindowCanvas extends Canvas implements Runnable, KeyListener {
         g2.drawImage(image, 0, 0, getWidth(), getHeight(), this);
         //    
         g2d.clearRect(0, 0, WindowCanvas.WIDTHCANVAS, WindowCanvas.HEIGHTCANVAS);
-        menu.render(g2d);
+        manager.render(g2d);
         //
         Toolkit.getDefaultToolkit().sync();
         g2.dispose();
@@ -113,17 +113,18 @@ public class WindowCanvas extends Canvas implements Runnable, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
     public void keyPressed(KeyEvent key) {
-
+        manager.keyPressed(key);
     }
 
     @Override
     public void keyReleased(KeyEvent key) {
-
+        manager.keyReleased(key);
     }
-
+    
+        @Override
+    public void keyTyped(KeyEvent e) {
+        
+    }
+    
 }

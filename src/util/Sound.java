@@ -43,6 +43,10 @@ public class Sound {
         clip.setMicrosecondPosition(0);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+    
+    public void stop(){
+        clip.stop();
+    }
 
 //	private final String fileName;
 //	private Player player;
