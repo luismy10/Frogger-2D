@@ -5,10 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.Stack;
 import loaders.Levelone;
+import loaders.Menu;
+import loaders.SplashScreen;
 
 public class Manager {
     
-    private final Stack<State> stacks;
+    private Stack<State> stacks;
     
     public Manager(){
         stacks = new Stack<>(); 
@@ -30,5 +32,9 @@ public class Manager {
     public void keyReleased(KeyEvent key){
         stacks.peek().keyReleased(key);
     }
-    
+
+    public Stack<State> getStacks() {
+        return stacks;
+    }   
+        
 }

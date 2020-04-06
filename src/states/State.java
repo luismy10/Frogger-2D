@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public abstract class State {
     
-    private final Manager manager;
+    protected Manager manager;
     
     public State(Manager manager){
         this.manager = manager;

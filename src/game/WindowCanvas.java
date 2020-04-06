@@ -26,7 +26,6 @@ public class WindowCanvas extends Canvas implements Runnable, KeyListener {
     private BufferedImage image;
     private Graphics2D g2d;
 
-
     // manager
     private Manager manager;
 

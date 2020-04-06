@@ -41,7 +41,7 @@ public class SplashScreen extends State{
 
         sound = new Sound("/sound/tiburon-cut.wav");
         sound.music();
-
+        
         stopTitle = false;
         auxiliar = "";
     }
@@ -57,6 +57,9 @@ public class SplashScreen extends State{
               speedy =0 ;
               if(inicio == title.length-1){
                   stopTitle=true;
+                  sound.stop();
+                  manager.getStacks().pop();
+                  manager.getStacks().push(new Menu(manager));
               }
           }
         }
@@ -74,17 +77,17 @@ public class SplashScreen extends State{
         g2d.setFont(new Font("Impact", Font.PLAIN, 24));
         g2d.setColor(Color.white);
         g2d.drawString(auxiliar, 90, 200);
-        g2d.drawImage(tiburones[iterador], (WindowCanvas.WIDTHCANVAS - 128) / 2, (WindowCanvas.HEIGHTCANVAS - 128) / 2 + 100, null);
+        g2d.drawImage(tiburones[iterador], (WindowCanvas.WIDTHCANVAS - 128) / 2, (WindowCanvas.HEIGHTCANVAS - 128) / 2 + 100, null);    
     }
 
     @Override
     public void keyPressed(KeyEvent key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void keyReleased(KeyEvent key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
 }

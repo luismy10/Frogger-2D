@@ -89,7 +89,7 @@ public class Levelone extends State{
 
     @Override
     public void update(double delta) {
-        player.update(delta);
+        
         for (short i = 0; i < car1.length; i++) {
             car1[i].moverigth();
         }
@@ -116,12 +116,13 @@ public class Levelone extends State{
         for(short i = 0; i < item5.length; i++){
             item5[i].moverigth();
         }
+        player.update(delta);
     }
 
     @Override
     public void render(Graphics2D g2d) {
         g2d.drawImage(background, 0, 0, WindowCanvas.WIDTHCANVAS, WindowCanvas.HEIGHTCANVAS, null);
-        player.render(g2d);
+        
         for (Pisouno pisouno : car1) {
             pisouno.render(g2d);
         }
@@ -146,6 +147,7 @@ public class Levelone extends State{
         for(Pisodos pisodos : item5){
             pisodos.render(g2d);
         }
+        player.render(g2d);
     }
 
     @Override
