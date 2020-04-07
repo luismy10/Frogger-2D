@@ -10,7 +10,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import states.Manager;
 
-public class WindowCanvas extends Canvas implements Runnable, KeyListener {
+public class WindowCanvas extends Canvas implements Runnable,KeyListener {
 
     // dimensions
     public static final int WIDTHCANVAS = 224 * 2;
