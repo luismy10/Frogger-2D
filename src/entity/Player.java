@@ -37,6 +37,9 @@ public class Player {
         animations = new HashMap<>();
         setAnimation("frog_up_",(short)3);
         setAnimation("frog_down_",(short)3);
+        setAnimation("frog_left_",(short)3);
+        setAnimation("frog_right_",(short)3);
+        
         frames = animations.get("frog_up_");
         
         frameIndex = 0;
@@ -73,7 +76,8 @@ public class Player {
         x += vx * speed;
         y += vy * speed;
         frameIndex = 0;
-        frames = animations.get(vy == 1 ? "frog_down_" : "frog_up_");
+        String direction = vy > 0 ? "frog_down_" : vy < 0 ? "frog_up_" : vx > 0 ? "frog_right_" : "frog_left_";
+        setMovimiento(direction);
         changeFrogState(FrogState.MOVE);
     }
 
@@ -85,6 +89,10 @@ public class Player {
         if (frame > 2.5) {
             changeFrogState(FrogState.CALM);
         }
+    }
+    
+    private void setMovimiento(String value){
+        frames = animations.get(value);
     }
 
     public void render(Graphics2D g2d) {
