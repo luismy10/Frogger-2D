@@ -9,8 +9,9 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import states.Manager;
+import util.Keyboard;
 
-public class WindowCanvas extends Canvas implements Runnable,KeyListener {
+public class WindowCanvas extends Canvas implements Runnable {
 
     // dimensions
     public static final int WIDTHCANVAS = 224 * 2;
@@ -39,7 +40,7 @@ public class WindowCanvas extends Canvas implements Runnable,KeyListener {
         setBounds(0, 0, WIDTHCANVAS, HEIGHTCANVAS);
         setFocusable(true);
         requestFocus();
-        addKeyListener(this);
+        addKeyListener(new Keyboard());
     }
 
     private void init() {
@@ -112,19 +113,19 @@ public class WindowCanvas extends Canvas implements Runnable,KeyListener {
         strategy.show();
     }
 
-    @Override
-    public void keyPressed(KeyEvent key) {
-        manager.keyPressed(key);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent key) {
-        manager.keyReleased(key);
-    }
-    
-        @Override
-    public void keyTyped(KeyEvent e) {
-        
-    }
+//    @Override
+//    public void keyPressed(KeyEvent key) {
+//        manager.keyPressed(key);
+//    }
+//
+//    @Override
+//    public void keyReleased(KeyEvent key) {
+//        manager.keyReleased(key);
+//    }
+//    
+//        @Override
+//    public void keyTyped(KeyEvent e) {
+//        
+//    }
     
 }

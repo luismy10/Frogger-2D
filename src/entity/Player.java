@@ -4,10 +4,15 @@ import game.WindowCanvas;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import util.Keyboard;
 
 public class Player {
 
@@ -64,10 +69,21 @@ public class Player {
     public void update(double delta) {
         switch (frogState) {
             case CALM:
-//                System.out.println(frogState);
+if (Keyboard.isKeyPressed(VK_LEFT)) {
+            move(-1, 0);
+        }
+        else if (Keyboard.isKeyPressed(VK_RIGHT)) {
+            move(1, 0);
+        }
+        if (Keyboard.isKeyPressed(VK_UP)) {
+            move(0, -1);
+        }
+        else if (Keyboard.isKeyPressed(VK_DOWN)) {
+            move(0, 1);
+        }
                 break;
             case MOVE:
-//                System.out.println(frogState);
+
                 updateJumping();
                 break;
         }
@@ -84,7 +100,7 @@ public class Player {
 
     private void updateJumping() {
         frameIndex++;        
-        int frame = (int) (frameIndex / 2.5);
+        int frame = (int) (frameIndex / 3.5);
         System.out.println(frame);
         posxAnimation = frame == 3 ? 0 : frame;
         if (frame > 2.5) {
