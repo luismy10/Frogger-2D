@@ -83,7 +83,7 @@ public class Player {
 
     private void updateJumping() {
         frameIndex++;        
-        int frame = (int) (frameIndex / 2.5);
+        int frame = (int) (frameIndex / 3.5);
         System.out.println(frame);
         posxAnimation = frame == 3 ? 0 : frame;
         if (frame > 2.5) {
