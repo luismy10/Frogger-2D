@@ -3,12 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/rcorrea/Documents/NetBeansProjects/Frogger-2D/src/entity/Player.java</file>
             <file>file:/C:/Users/rcorrea/Documents/NetBeansProjects/Frogger-2D/src/loaders/SplashScreen.java</file>
             <file>file:/C:/Users/rcorrea/Documents/NetBeansProjects/Frogger-2D/src/loaders/Levelone.java</file>
             <file>file:/C:/Users/rcorrea/Documents/NetBeansProjects/Frogger-2D/src/states/Manager.java</file>
             <file>file:/C:/Users/rcorrea/Documents/NetBeansProjects/Frogger-2D/src/loaders/Menu.java</file>
             <file>file:/C:/Users/rcorrea/Documents/NetBeansProjects/Frogger-2D/src/game/WindowCanvas.java</file>
+=======
+            <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/game/WindowCanvas.java</file>
+            <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/util/Keyboard.java</file>
+            <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/loaders/Levelone.java</file>
+            <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/entity/Player.java</file>
+>>>>>>> 357967ea1a2aae69ba8e7271830fc06aafa5f48b
         </group>
     </open-files>
 </project-private>

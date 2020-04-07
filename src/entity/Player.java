@@ -1,117 +1,110 @@
 package entity;
 
 import game.WindowCanvas;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.ImageIcon;
 
 public class Player {
 
-    public Image[] playerone;
-    private int dx;
-    private double dy;
+    private enum FrogState {
+        CALM, MOVE
+    }
+
+    private FrogState frogState = FrogState.CALM;
+   
     private int x;
     private int y;
-    private int speedfrog;
-    private int iterador;
-    
-    private boolean up;
-    private boolean down;
-    private double moveSpeed;
-    private double maxSpeed;
-    private double stopSpeed;
+    private final int w;
+    private final int h;
+    private final int speed;
 
-    public Player() {
-        playerone = new Image[3];
-        playerone[0] = new ImageIcon(getClass().getResource("/image/frog_up_2.png")).getImage();
-        playerone[1] = new ImageIcon(getClass().getResource("/image/frog_up_1.png")).getImage();
-        playerone[2] = new ImageIcon(getClass().getResource("/image/frog_up_0.png")).getImage();
-        x = WindowCanvas.WIDTHCANVAS / 2 - 14;
-        y = WindowCanvas.WIDTHCANVAS + 3;
+    private Map<String, Image[]> animations;
+    public Image[] frames;
+    private int frameIndex;
+    private int posxAnimation;
 
-        speedfrog = 1;
-        iterador = 0;
+    public Player(int width, int height) {
+        x = (WindowCanvas.WIDTHCANVAS - width) / 2;
+        y = 226 * 2;
+        w = width;
+        h = height;
+        speed = 32;
+
+        animations = new HashMap<>();
+        setAnimation("frog_up_",(short)3);
+        setAnimation("frog_down_",(short)3);
+        frames = animations.get("frog_up_");
         
-        moveSpeed = 0.6;
-        maxSpeed = 4.2;
-        stopSpeed = 0.30;
+        frameIndex = 0;
+        posxAnimation = 0;
+    }
+    
+    private void setAnimation(String key, short value ){
+        Image[] image = new Image[value];
+        for(short i = 0; i < image.length; i++){
+            image[i] = new ImageIcon(getClass().getResource("/image/"+key+i+".png")).getImage();
+        }
+        animations.put(key, image);
+    }
+
+    private void changeFrogState(FrogState frogState) {
+        if (this.frogState != frogState) {
+            this.frogState = frogState;
+        }
     }
 
     public void update(double delta) {
-//        speedfrog++;        
-//        if (speedfrog >= 30) {
-//            iterador++;
-//            speedfrog = 0;
-//            if (iterador == 3) {
-//                iterador = 0;
-//            }
-//        }
-        mover();
+        switch (frogState) {
+            case CALM:
+//                System.out.println(frogState);
+                break;
+            case MOVE:
+//                System.out.println(frogState);
+                updateJumping();
+                break;
+        }
+    }
+
+    public void move(int vx, int vy) {
+        x += vx * speed;
+        y += vy * speed;
+        frameIndex = 0;
+        frames = animations.get(vy == 1 ? "frog_down_" : "frog_up_");
+        changeFrogState(FrogState.MOVE);
+    }
+
+    private void updateJumping() {
+        frameIndex++;        
+        int frame = (int) (frameIndex / 2.5);
+        System.out.println(frame);
+        posxAnimation = frame == 3 ? 0 : frame;
+        if (frame > 2.5) {
+            changeFrogState(FrogState.CALM);
+        }
     }
 
     public void render(Graphics2D g2d) {
-        g2d.drawImage(playerone[iterador], x, y, 28, 28, null);
-
-    }
-
-    public void mover() {
-        if(up){
-            dy -= moveSpeed;
-            if(dy < -maxSpeed){
-                dy = -maxSpeed;
-            }
-        }else if(down){
-            dy += moveSpeed;
-            if(dy > maxSpeed){
-                dy = maxSpeed;
-            }
-        }else{
-            if(dy > 0){
-                dy -= stopSpeed;
-                if(dy < 0){
-                    dy = 0;
-                }
-            }else if(dy < 0){
-                dy += stopSpeed;
-                if(dy > 0){
-                    dy = 0;
-                }
-            }
-        }
-        
-        x = dx;
-        y += (int) dy;
+        g2d.drawImage(frames[posxAnimation], x, y, w, h, null);
     }
 
     public void keypressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {            
-            up=true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            down=true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            dx = -2;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            dx = 2;
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            move(0, -1);   
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            move(0, 1);
+        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+            move(-1, 0);
+        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            move(1, 0);
         }
     }
 
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            up=false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            down=false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            dx = 0;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            dx = 0;
-        }
+
     }
 }
