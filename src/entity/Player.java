@@ -4,9 +4,15 @@ import game.WindowCanvas;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import util.Keyboard;
 
 public class Player {
 
@@ -15,7 +21,7 @@ public class Player {
     }
 
     private FrogState frogState = FrogState.CALM;
-   
+
     private int x;
     private int y;
     private final int w;
@@ -35,21 +41,21 @@ public class Player {
         speed = 32;
 
         animations = new HashMap<>();
-        setAnimation("frog_up_",(short)3);
-        setAnimation("frog_down_",(short)3);
-        setAnimation("frog_left_",(short)3);
-        setAnimation("frog_right_",(short)3);
-        
+        setAnimation("frog_up_", (short) 3);
+        setAnimation("frog_down_", (short) 3);
+        setAnimation("frog_left_", (short) 3);
+        setAnimation("frog_right_", (short) 3);
+
         frames = animations.get("frog_up_");
-        
+
         frameIndex = 0;
         posxAnimation = 0;
     }
-    
-    private void setAnimation(String key, short value ){
+
+    private void setAnimation(String key, short value) {
         Image[] image = new Image[value];
-        for(short i = 0; i < image.length; i++){
-            image[i] = new ImageIcon(getClass().getResource("/image/"+key+i+".png")).getImage();
+        for (short i = 0; i < image.length; i++) {
+            image[i] = new ImageIcon(getClass().getResource("/image/" + key + i + ".png")).getImage();
         }
         animations.put(key, image);
     }
@@ -63,10 +69,19 @@ public class Player {
     public void update(double delta) {
         switch (frogState) {
             case CALM:
-//                System.out.println(frogState);
+                if (Keyboard.isKeyPressed(VK_LEFT)) {
+                    move(-1, 0);
+                } else if (Keyboard.isKeyPressed(VK_RIGHT)) {
+                    move(1, 0);
+                }
+                if (Keyboard.isKeyPressed(VK_UP)) {
+                    move(0, -1);
+                } else if (Keyboard.isKeyPressed(VK_DOWN)) {
+                    move(0, 1);
+                }
                 break;
             case MOVE:
-//                System.out.println(frogState);
+
                 updateJumping();
                 break;
         }
@@ -82,16 +97,16 @@ public class Player {
     }
 
     private void updateJumping() {
-        frameIndex++;        
-        int frame = (int) (frameIndex / 3.5);
+        frameIndex++;
+        int frame = (int) (frameIndex / 4.5);
         System.out.println(frame);
         posxAnimation = frame == 3 ? 0 : frame;
         if (frame > 2.5) {
             changeFrogState(FrogState.CALM);
         }
     }
-    
-    private void setMovimiento(String value){
+
+    private void setMovimiento(String value) {
         frames = animations.get(value);
     }
 
@@ -101,7 +116,7 @@ public class Player {
 
     public void keypressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            move(0, -1);   
+            move(0, -1);
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             move(0, 1);
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
