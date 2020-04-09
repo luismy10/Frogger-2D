@@ -12,8 +12,8 @@ public class Pisodos extends Modelo {
     private int speed;
     private Image[] tortuga;
 
-    public Pisodos(int x, int y, String ruta, int width, int height, int speedplus) {
-        super(x, y, ruta, width, height, speedplus);
+    public Pisodos(int x, int y, String ruta, int width, int height, int speedplus, String direction) {
+        super(x, y, ruta, width, height, speedplus, direction);
     }
 
     public Pisodos(int x, int y, int width, int height, int speedplus) {
