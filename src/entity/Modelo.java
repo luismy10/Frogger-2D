@@ -26,12 +26,13 @@ public class Modelo {
         this.direction = direction;
     }
 
-    public Modelo(int x, int y, int width, int height, int speedplus) {
+    public Modelo(int x, int y, int width, int height, int speedplus, String direction) {
         this.width = width;
         this.height = height;
         this.x = x;
         this.y = y;
         this.speedplus = speedplus;
+        this.direction = direction;
     }
 
     public void update(double delta) {
@@ -64,6 +65,9 @@ public class Modelo {
         return speedplus;
     }
 
-    
+    public String getDirection() {
+        return direction;
+    }    
+
 
 }

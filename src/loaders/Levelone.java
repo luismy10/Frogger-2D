@@ -17,16 +17,14 @@ import states.State;
 public class Levelone extends State {
 
     private Image background;
+    
     private Player player;
+    
     private River river;
 
     private ArrayList<Pisouno> pisounos;
 
-    private Pisodos[] turtle1;
-    private Pisodos[] item2;
-    private Pisodos[] item3;
-    private Pisodos[] turtle2;
-    private Pisodos[] item5;
+    private ArrayList<Pisodos> pisodoses;
 
     public Levelone(Manager manager) {
         super(manager);
@@ -34,6 +32,8 @@ public class Levelone extends State {
         background = new ImageIcon(getClass().getResource("/image/background.png")).getImage();
         river = new River();
         pisounos = new ArrayList();
+
+        pisodoses = new ArrayList();
 
         pisounos.add(new Pisouno(0, 295, "/image/car_c_0.png", 54, 20, 1, "left"));
         pisounos.add(new Pisouno(96, 295, "/image/car_c_0.png", 54, 20, 1, "left"));
@@ -53,28 +53,36 @@ public class Levelone extends State {
 
         pisounos.add(new Pisouno(10, 322, "/image/car_e_0.png", 32, 28, 5, "right"));
 
-//        turtle1 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30, 220, 30, 30, 2);
-//        turtle1.tortuga();
-        item2 = new Pisodos[3];
-        item2[0] = new Pisodos(128, 199, "/image/log_0.png", 84, 20, 2, "right");
-        item2[1] = new Pisodos(320, 199, "/image/log_0.png", 84, 20, 2, "right");
-        item2[2] = new Pisodos(384, 199, "/image/log_0.png", 84, 20, 2, "right");
+        Pisodos turtle11 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30, 225, 30, 30, 2, "left", true);
+        turtle11.tortuga();
+        Pisodos turtle12 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30 + 30, 225, 30, 30, 2, "left", true);
+        turtle12.tortuga();
+        Pisodos turtle13 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30 + 30 + 30, 225, 30, 30, 2, "left", true);
+        turtle13.tortuga();
+        pisodoses.add(turtle11);
+//        pisodoses.add(turtle12);
+//        pisodoses.add(turtle13);
 
-        item3 = new Pisodos[3];
-        item3[0] = new Pisodos(0, 168, "/image/log_0.png", 84, 20, 1, "right");
-        item3[1] = new Pisodos(160, 168, "/image/log_0.png", 84, 20, 1, "right");
-        item3[2] = new Pisodos(320, 168, "/image/log_0.png", 84, 20, 1, "right");
-//        turtle2 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30, 130, 30, 30, 3);
-//        turtle2.tortuga();
-        item5 = new Pisodos[4];
-        item5[0] = new Pisodos(0, 103, "/image/log_0.png", 84, 20, 1, "right");
-        item5[1] = new Pisodos(128, 103, "/image/log_0.png", 84, 20, 1, "right");
-        item5[2] = new Pisodos(156, 103, "/image/log_0.png", 84, 20, 1, "right");
-        item5[3] = new Pisodos(384, 103, "/image/log_0.png", 84, 20, 1, "right");
+        pisodoses.add(new Pisodos(128, 199, "/image/log_0.png", 84, 20, 2, "right"));
+        pisodoses.add(new Pisodos(320, 199, "/image/log_0.png", 84, 20, 2, "right"));
+        pisodoses.add(new Pisodos(384, 199, "/image/log_0.png", 84, 20, 2, "right"));
+
+        pisodoses.add(new Pisodos(0, 168, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(160, 168, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(320, 168, "/image/log_0.png", 84, 20, 1, "right"));
+
+        Pisodos turtle2 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30, 130, 30, 30, 1, "left", true);
+        turtle2.tortuga();
+        pisodoses.add(turtle2);
+
+        pisodoses.add(new Pisodos(0, 103, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(128, 103, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(156, 103, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(384, 103, "/image/log_0.png", 84, 20, 1, "right"));
 
         player = new Player(28, 28);
         player.setModeloCarros(pisounos);
-        player.setModeloTronquito(item2[0]);
+        player.setModeloTronquito(pisodoses);
         player.setRiver(river);
     }
 
@@ -85,46 +93,37 @@ public class Levelone extends State {
             pisouno.update(delta);
         });
 
-//        turtle1.animationTurtle();
-//        turtle1.moveleft();
-        for (short i = 0; i < item2.length; i++) {
-            item2[i].update(delta);
-        }
-        for (short i = 0; i < item3.length; i++) {
-            item3[i].update(delta);
-        }
-//        turtle2.animationTurtle();
-//        turtle2.moveleft();
-        for (short i = 0; i < item5.length; i++) {
-            item5[i].update(delta);
-        }
-        player.update(delta);
+        pisodoses.forEach((pisodos) -> {
+            pisodos.animationTurtle();
+            pisodos.update(delta);
+        });
+        
         river.update(delta);
+        
+        player.update(delta);
+        
     }
 
     @Override
     public void render(Graphics2D g2d) {
         g2d.drawImage(background, 0, 0, WindowCanvas.WIDTHCANVAS, WindowCanvas.HEIGHTCANVAS, null);
-        
+
         river.render(g2d);
         
         pisounos.forEach((pisouno) -> {
             pisouno.render(g2d);
         });
-//        turtle1.renderturtle(g2d);
-        for (Pisodos pisodos : item2) {
-            pisodos.render(g2d);
-        }
-        for (Pisodos pisodos : item3) {
-            pisodos.render(g2d);
-        }
-//        turtle2.renderturtle(g2d);
-        for (Pisodos pisodos : item5) {
-            pisodos.render(g2d);
-        }
-        
-        player.render(g2d);
 
+        pisodoses.forEach((pisodos) -> {
+            if (pisodos.isType()) {
+                pisodos.renderturtle(g2d);
+            } else {
+                pisodos.render(g2d);
+            }
+
+        });
+
+        player.render(g2d);
     }
 
     @Override

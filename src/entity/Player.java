@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import util.Keyboard;
+import util.Tools;
 
 public class Player {
 
@@ -39,7 +40,8 @@ public class Player {
 
     private ArrayList<Modelo> carros;
 
-    private Modelo tronquitos;
+    private ArrayList<Pisodos> tronquitos;
+
     private River river;
 
     public Player(int width, int height) {
@@ -69,7 +71,7 @@ public class Player {
         this.carros = modelos;
     }
 
-    public void setModeloTronquito(Modelo modelo) {
+    public void setModeloTronquito(ArrayList<Pisodos> modelo) {
         this.tronquitos = modelo;
     }
 
@@ -102,14 +104,23 @@ public class Player {
                         frameIndex = 0;
                         setMovimiento("frog_dying_");
                     }
-                }
-
-                if (collision(getRectangle(), tronquitos.getRectangle())) {
-                    x += tronquitos.getSpeedplus();
-                }
-                if (collision(getRectangle(), river.getRectangle())) {
-                    changeFrogState(FrogState.DIED);
-                    setMovimiento("frog_dying_");
+                }                
+                
+                for (Pisodos pisodos : tronquitos) {
+                    if (collision(getRectangle(), pisodos.getRectangle())) {
+                        if (pisodos.getDirection().equals("right")) {
+                            x += pisodos.getSpeedplus();
+                        } else {
+                            x -= pisodos.getSpeedplus();
+                        }        
+                        return;
+                    } else {
+                        if (collision(getRectangle(), river.getRectangle())) {
+                            Tools.println("Dentro...");
+//                            changeFrogState(FrogState.DIED);
+//                            setMovimiento("frog_dying_");
+                        }
+                    }
                 }
 
                 break;
@@ -139,7 +150,7 @@ public class Player {
         frameIndex++;
         x += dx;
         y += dy;
-        int frame = (int) (frameIndex / 2.4) ;
+        int frame = (int) (frameIndex / 2.4);
         posxAnimation = frame == 3 ? 0 : frame;
         if (frame > 2) {
             changeFrogState(FrogState.CALM);
@@ -150,7 +161,7 @@ public class Player {
         frameIndex++;
         int frame = (int) (frameIndex / 15);
         posxAnimation = frame == 4 ? 0 : frame;
-        if (frame > 3.5) {
+        if (frame > 3) {
             changeFrogState(FrogState.CALM);
             reset();
         }
