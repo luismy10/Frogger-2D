@@ -62,6 +62,6 @@ public class Pisodos extends Modelo {
     public boolean isType() {
         return type;
     }
-
     
+        
 }

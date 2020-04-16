@@ -1,6 +1,7 @@
 package entity;
 
 import game.WindowCanvas;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -19,7 +20,7 @@ import util.Tools;
 public class Player {
 
     private enum FrogState {
-        CALM, MOVE, DIED
+        CALM, MOVE, DIED, OVER
     }
 
     private FrogState frogState = FrogState.CALM;
@@ -71,7 +72,7 @@ public class Player {
         this.carros = modelos;
     }
 
-    public void setModeloTronquito(ArrayList<Pisodos> modelo) {
+    public void setModeloTronquito(ArrayList modelo) {
         this.tronquitos = modelo;
     }
 
@@ -104,24 +105,30 @@ public class Player {
                         frameIndex = 0;
                         setMovimiento("frog_dying_");
                     }
-                }                
-                
-                for (Pisodos pisodos : tronquitos) {
-                    if (collision(getRectangle(), pisodos.getRectangle())) {
-                        if (pisodos.getDirection().equals("right")) {
-                            x += pisodos.getSpeedplus();
-                        } else {
-                            x -= pisodos.getSpeedplus();
-                        }        
-                        return;
-                    } else {
-                        if (collision(getRectangle(), river.getRectangle())) {
-                            Tools.println("Dentro...");
-//                            changeFrogState(FrogState.DIED);
-//                            setMovimiento("frog_dying_");
+                }
+                if (y < river.getHeight()) {
+                    boolean ok = false;
+                    for (Pisodos pisodos : tronquitos) {
+                        if (collision(getRectangle(), pisodos.getRectangle())) {
+                            ok = true;
+                            if (pisodos.getDirection().equalsIgnoreCase("right")) {
+                                x += pisodos.getSpeedplus();
+                            } else {
+                                x -= pisodos.getSpeedplus();
+                            }
+                            return;
                         }
                     }
+                    if (!ok) {
+                        changeFrogState(FrogState.DIED);
+                        setMovimiento("frog_dying_");
+                    }
+                } else {
+
                 }
+
+                break;
+            case OVER:
 
                 break;
             case MOVE:
@@ -130,6 +137,7 @@ public class Player {
             case DIED:
                 updatedDied();
                 break;
+
         }
 
     }
@@ -150,7 +158,7 @@ public class Player {
         frameIndex++;
         x += dx;
         y += dy;
-        int frame = (int) (frameIndex / 2.4);
+        int frame = (int) (frameIndex / 2.4) ;
         posxAnimation = frame == 3 ? 0 : frame;
         if (frame > 2) {
             changeFrogState(FrogState.CALM);
@@ -199,6 +207,8 @@ public class Player {
 
     public void render(Graphics2D g2d) {
         g2d.drawImage(frames[posxAnimation], x, y, w, h, null);
+        g2d.setColor(Color.red);
+        g2d.drawRect(x, y, w, h);
     }
 
     public void keypressed(KeyEvent e) {

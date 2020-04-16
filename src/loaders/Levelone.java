@@ -53,19 +53,19 @@ public class Levelone extends State {
 
         pisounos.add(new Pisouno(10, 322, "/image/car_e_0.png", 32, 28, 5, "right"));
 
-        Pisodos turtle11 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30, 225, 30, 30, 2, "left", true);
+        Pisodos turtle11 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30, 225, 30, 30, 1, "left", true);
         turtle11.tortuga();
-        Pisodos turtle12 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30 + 30, 225, 30, 30, 2, "left", true);
+        Pisodos turtle12 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30 + 30, 225, 30, 30, 1, "left", true);
         turtle12.tortuga();
-        Pisodos turtle13 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30 + 30 + 30, 225, 30, 30, 2, "left", true);
+        Pisodos turtle13 = new Pisodos(WindowCanvas.WIDTHCANVAS + 30 + 30 + 30, 225, 30, 30, 1, "left", true);
         turtle13.tortuga();
         pisodoses.add(turtle11);
-//        pisodoses.add(turtle12);
-//        pisodoses.add(turtle13);
+        pisodoses.add(turtle12);
+        pisodoses.add(turtle13);
 
-        pisodoses.add(new Pisodos(128, 199, "/image/log_0.png", 84, 20, 2, "right"));
-        pisodoses.add(new Pisodos(320, 199, "/image/log_0.png", 84, 20, 2, "right"));
-        pisodoses.add(new Pisodos(384, 199, "/image/log_0.png", 84, 20, 2, "right"));
+        pisodoses.add(new Pisodos(128, 199, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(320, 199, "/image/log_0.png", 84, 20, 1, "right"));
+        pisodoses.add(new Pisodos(384, 199, "/image/log_0.png", 84, 20, 1, "right"));
 
         pisodoses.add(new Pisodos(0, 168, "/image/log_0.png", 84, 20, 1, "right"));
         pisodoses.add(new Pisodos(160, 168, "/image/log_0.png", 84, 20, 1, "right"));
@@ -82,8 +82,8 @@ public class Levelone extends State {
 
         player = new Player(28, 28);
         player.setModeloCarros(pisounos);
-        player.setModeloTronquito(pisodoses);
         player.setRiver(river);
+        player.setModeloTronquito(pisodoses);
     }
 
     @Override

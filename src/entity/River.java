@@ -54,4 +54,10 @@ public class River {
     public Rectangle getRectangle() {
         return new Rectangle(x, y, width, height);
     }
+
+    public int getHeight() {
+        return y+height;
+    }
+    
+    
 }
