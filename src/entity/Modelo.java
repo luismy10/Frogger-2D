@@ -1,6 +1,7 @@
 package entity;
 
 import game.WindowCanvas;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -26,12 +27,13 @@ public class Modelo {
         this.direction = direction;
     }
 
-    public Modelo(int x, int y, int width, int height, int speedplus) {
+    public Modelo(int x, int y, int width, int height, int speedplus, String direction) {
         this.width = width;
         this.height = height;
         this.x = x;
         this.y = y;
         this.speedplus = speedplus;
+        this.direction = direction;
     }
 
     public void update(double delta) {
@@ -50,6 +52,8 @@ public class Modelo {
 
     public void render(Graphics2D g2d) {
         g2d.drawImage(imagen, x, y, width, height, null);
+        g2d.setColor(Color.red);
+        g2d.drawRect(x, y, width, height);
     }
 
     public void render(Graphics2D g2d, Image turtle) {
@@ -64,6 +68,8 @@ public class Modelo {
         return speedplus;
     }
 
-    
+    public String getDirection() {
+        return direction;
+    }    
 
 }

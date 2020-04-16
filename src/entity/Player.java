@@ -1,6 +1,7 @@
 package entity;
 
 import game.WindowCanvas;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -14,11 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import util.Keyboard;
+import util.Tools;
 
 public class Player {
 
     private enum FrogState {
-        CALM, MOVE, DIED
+        CALM, MOVE, DIED, OVER
     }
 
     private FrogState frogState = FrogState.CALM;
@@ -27,7 +29,10 @@ public class Player {
     private int y;
     private final int w;
     private final int h;
-    private final int speed;
+
+    private double dx;
+    private double dy;
+    private final double speed;
 
     private final Map<String, Image[]> animations;
     public Image[] frames;
@@ -36,21 +41,25 @@ public class Player {
 
     private ArrayList<Modelo> carros;
 
-    private Modelo tronquitos;
+    private ArrayList<Pisodos> tronquitos;
+
     private River river;
 
     public Player(int width, int height) {
         x = (WindowCanvas.WIDTHCANVAS - width) / 2;
-        y = 226 * 2;
+        y = 452;
         w = width;
         h = height;
-        speed = 32;
+        speed = 4;
+
+        dx = dy = 0;
 
         animations = new HashMap<>();
         setAnimation("frog_up_", (short) 3);
         setAnimation("frog_down_", (short) 3);
         setAnimation("frog_left_", (short) 3);
         setAnimation("frog_right_", (short) 3);
+
         setAnimation("frog_dying_", (short) 4);
 
         frames = animations.get("frog_up_");
@@ -63,10 +72,11 @@ public class Player {
         this.carros = modelos;
     }
 
-    public void setModeloTronquito(Modelo modelo) {
+    public void setModeloTronquito(ArrayList modelo) {
         this.tronquitos = modelo;
     }
-    public void setRiver(River river){
+
+    public void setRiver(River river) {
         this.river = river;
     }
 
@@ -87,16 +97,7 @@ public class Player {
     public void update(double delta) {
         switch (frogState) {
             case CALM:
-                if (Keyboard.isKeyPressed(VK_LEFT)) {
-                    move(-1, 0);
-                } else if (Keyboard.isKeyPressed(VK_RIGHT)) {
-                    move(1, 0);
-                }
-                if (Keyboard.isKeyPressed(VK_UP)) {
-                    move(0, -1);
-                } else if (Keyboard.isKeyPressed(VK_DOWN)) {
-                    move(0, 1);
-                }
+                updateCalm();
 
                 for (Modelo modelo1 : carros) {
                     if (collision(getRectangle(), modelo1.getRectangle())) {
@@ -105,15 +106,29 @@ public class Player {
                         setMovimiento("frog_dying_");
                     }
                 }
-
-                if (collision(getRectangle(), tronquitos.getRectangle())) {
-                    x += tronquitos.getSpeedplus();
+                if (y < river.getHeight()) {
+                    boolean ok = false;
+                    for (Pisodos pisodos : tronquitos) {
+                        if (collision(getRectangle(), pisodos.getRectangle())) {
+                            ok = true;
+                            if(pisodos.getDirection().equalsIgnoreCase("right")){
+                                x += pisodos.getSpeedplus();
+                            }else{
+                                x -= pisodos.getSpeedplus();
+                            }
+                        }
+                    }
+                    if (!ok) {
+                        changeFrogState(FrogState.DIED);
+                        setMovimiento("frog_dying_");
+                    }
+                }else{
+                    
                 }
-                if(collision(getRectangle(), river.getRectangle())){
-                    changeFrogState(frogState.DIED);
-                    setMovimiento("frog_dying_");
-                }
 
+                break;
+            case OVER:
+                    
                 break;
             case MOVE:
                 updateJumping();
@@ -121,24 +136,30 @@ public class Player {
             case DIED:
                 updatedDied();
                 break;
+
         }
 
     }
 
-    public void move(int vx, int vy) {
-        x += vx * speed;
-        y += vy * speed;
-        frameIndex = 0;
-        String direction = vy > 0 ? "frog_down_" : vy < 0 ? "frog_up_" : vx > 0 ? "frog_right_" : "frog_left_";
-        setMovimiento(direction);
-        changeFrogState(FrogState.MOVE);
+    private void updateCalm() {
+        if (Keyboard.isKeyPressed(VK_LEFT)) {
+            move(-speed, 0);
+        } else if (Keyboard.isKeyPressed(VK_RIGHT)) {
+            move(speed, 0);
+        } else if (Keyboard.isKeyPressed(VK_UP)) {
+            move(0, -speed);
+        } else if (Keyboard.isKeyPressed(VK_DOWN)) {
+            move(0, speed);
+        }
     }
 
     private void updateJumping() {
         frameIndex++;
-        int frame = (int) (frameIndex / 4);
+        x += dx;
+        y += dy;
+        int frame = (int) (frameIndex / 2.4);
         posxAnimation = frame == 3 ? 0 : frame;
-        if (frame > 2.5) {
+        if (frame >= 3) {
             changeFrogState(FrogState.CALM);
         }
     }
@@ -147,10 +168,19 @@ public class Player {
         frameIndex++;
         int frame = (int) (frameIndex / 15);
         posxAnimation = frame == 4 ? 0 : frame;
-        if (frame > 3.5) {
+        if (frame == 4) {
             changeFrogState(FrogState.CALM);
             reset();
         }
+    }
+
+    public void move(double vx, double vy) {
+        dx = vx;
+        dy = vy;
+        frameIndex = 0;
+        String direction = vy > 0 ? "frog_down_" : vy < 0 ? "frog_up_" : vx > 0 ? "frog_right_" : "frog_left_";
+        setMovimiento(direction);
+        changeFrogState(FrogState.MOVE);
     }
 
     private void reset() {
@@ -176,6 +206,8 @@ public class Player {
 
     public void render(Graphics2D g2d) {
         g2d.drawImage(frames[posxAnimation], x, y, w, h, null);
+        g2d.setColor(Color.red);
+        g2d.drawRect(x, y, w, h);
     }
 
     public void keypressed(KeyEvent e) {
