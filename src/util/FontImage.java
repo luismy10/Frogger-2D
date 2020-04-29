@@ -36,7 +36,7 @@ public class FontImage {
                     ig.drawImage(bitmapFontImage, 0, 0, letterWidth, letterHeight,
                             x * letterWidth, y * letterHeight,
                             x * letterWidth + letterWidth, y * letterHeight + letterHeight, null);
-                  
+
                 }
             }
         } catch (IOException ex) {
@@ -44,7 +44,7 @@ public class FontImage {
         }
     }
 
-    public void drawText(Graphics2D g, String msg, int posx, int posy, Color overrideColor) {   
+    public void drawText(Graphics2D g, String msg, int posx, int posy, Color overrideColor) {
         if (letters == null) {
             return;
         }
@@ -52,12 +52,12 @@ public class FontImage {
         for (int i = 0; i < msg.length(); i++) {
             int charx = chars.indexOf(msg.charAt(i));
             if (charx >= 0) {
-            originalBuffer = new BufferedImage(
-                    letters[charx].getWidth(),
-                    letters[charx].getHeight(), 
-                    letters[charx].getType());
-            originalBuffer.setData(letters[charx].getData());
-            
+                originalBuffer = new BufferedImage(
+                        letters[charx].getWidth(),
+                        letters[charx].getHeight(),
+                        letters[charx].getType());
+                originalBuffer.setData(letters[charx].getData());
+
                 for (int x = 0; x < letters[charx].getWidth(); x++) {
                     for (int y = 0; y < letters[charx].getHeight(); y++) {
                         if (letters[charx].getRGB(x, y) == new Color(0, 0, 0).getRGB()) {
