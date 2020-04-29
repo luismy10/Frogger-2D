@@ -10,21 +10,27 @@ import javax.swing.ImageIcon;
 public class Pisodos extends Modelo {
 
     private boolean type;
+    private boolean explotion;
     private int iterador;
     private int animacion;
     private Image[] tortuga;
     private Map<String, Image[]> animatios;
+    private int contador;
+    private boolean collision;
 
     public Pisodos(int x, int y, String ruta, int width, int height, int speedplus, String direction) {
         super(x, y, ruta, width, height, speedplus, direction);
     }
 
-    public Pisodos(int x, int y, int width, int height, int speedplus, String direction,boolean type) {
+    public Pisodos(int x, int y, int width, int height, int speedplus, String direction, boolean type, boolean explotion) {
         super(x, y, width, height, speedplus, direction);
         iterador = 0;
         animacion = 0;
         animatios = new HashMap<>();
-        this.type=type;
+        this.type = type;
+        this.explotion = explotion;
+        contador = 0;
+        collision = false;
     }
 
     public void tortuga() {
@@ -42,15 +48,36 @@ public class Pisodos extends Modelo {
         animatios.put("second", second_animation);
 
         tortuga = animatios.get("firt");
+        
     }
 
     public void animationTurtle() {
-        animacion++;
-        int frame = animacion / 20;
-        iterador = frame == 3 ? 0 : frame;
-        if (frame > 2) {
-            animacion = 0;
+        if (!explotion) {
+            animacion++;
+            int frame = animacion / 20;
+            iterador = frame == 3 ? 0 : frame;
+            if (frame > 2) {
+                animacion = 0;
+            }
+            collision = true;
+        } else {
+            animacion++;
+            int frame = animacion / 20;
+            iterador = frame == 3 ? 0 : frame;
+            if (frame > 2) {
+                animacion = 0;
+                contador++;
+                if (contador > 3) {                    
+                    tortuga = animatios.get("second");               
+                    contador = 0;
+                    collision=false;
+                } else {
+                    tortuga = animatios.get("firt");  
+                    collision=true;
+                }
+            }
         }
+
     }
 
     public void renderturtle(Graphics2D g2d) {
@@ -62,6 +89,12 @@ public class Pisodos extends Modelo {
     public boolean isType() {
         return type;
     }
+
+    public boolean isExplotion() {
+        return explotion;
+    }
     
-        
+    public boolean isCollision(){
+        return collision;
+    }
 }

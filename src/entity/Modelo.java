@@ -40,11 +40,11 @@ public class Modelo {
         if (direction.equalsIgnoreCase("left")) {
             x -= speedplus;
             if (x < -width) {
-                x = WindowCanvas.WIDTHCANVAS + 50;
+                x = WindowCanvas.WIDTHCANVAS;
             }
         } else if (direction.equalsIgnoreCase("right")) {
             x += speedplus;
-            if (x > WindowCanvas.WIDTHCANVAS + 50) {
+            if (x > WindowCanvas.WIDTHCANVAS) {
                 x = -width;
             }
         }

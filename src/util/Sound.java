@@ -18,6 +18,7 @@ public class Sound {
         wav(ruta);
     }
 
+
     private void wav(String ruta) {
         try {
             InputStream is = Sound.class.getResourceAsStream(ruta);

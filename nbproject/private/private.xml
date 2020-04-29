@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/util/Tools.java</file>
             <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/loaders/Levelone.java</file>
@@ -9,5 +10,8 @@
             <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/entity/River.java</file>
             <file>file:/C:/Users/Aleza/Documents/NetBeansProjects/Frogger2d/src/entity/Player.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> 3b9f61a7e458e493b79f5734420bb1ba68219ac1
     </open-files>
 </project-private>
