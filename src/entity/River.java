@@ -34,29 +34,24 @@ public class River {
     }
 
     public void update(double delta) {
-//        speed ++;
-
-//        if(speed >= 20){
-//            iterador ++;
-//            speed = 0;
-//            if(iterador == 3){
-//              iterador = 0;  
-//            }
-//        }
     }
 
     public void render(Graphics2D g2d) {
 //        g2d.drawImage(background[iterador], 0, 58, WindowCanvas.WIDTHCANVAS, 206, null);
         g2d.setColor(Color.red);
-        g2d.drawRect(x, y, width, height);
+        g2d.drawRect(x, y, width, 160);
     }
 
     public Rectangle getRectangle() {
         return new Rectangle(x, y, width, height);
     }
+    
+    public int getY(){
+        return y;
+    }
 
     public int getHeight() {
-        return y+height;
+        return height;
     }
     
     
