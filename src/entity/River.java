@@ -38,8 +38,8 @@ public class River {
 
     public void render(Graphics2D g2d) {
 //        g2d.drawImage(background[iterador], 0, 58, WindowCanvas.WIDTHCANVAS, 206, null);
-        g2d.setColor(Color.red);
-        g2d.drawRect(x, y, width, 160);
+//        g2d.setColor(Color.red);
+//        g2d.drawRect(x, y, width, height);
     }
 
     public Rectangle getRectangle() {

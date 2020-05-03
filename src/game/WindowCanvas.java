@@ -4,8 +4,6 @@ import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import states.Manager;
@@ -46,8 +44,6 @@ public class WindowCanvas extends Canvas implements Runnable {
     private void init() {
         image = new BufferedImage(WIDTHCANVAS, HEIGHTCANVAS, BufferedImage.TYPE_INT_RGB);
         g2d = (Graphics2D) image.getGraphics();
-//         splashScreen = new SplashScreen();
-//        menu = new Menu();
         manager = new Manager();
     
     }
@@ -113,19 +109,5 @@ public class WindowCanvas extends Canvas implements Runnable {
         strategy.show();
     }
 
-//    @Override
-//    public void keyPressed(KeyEvent key) {
-//        manager.keyPressed(key);
-//    }
-//
-//    @Override
-//    public void keyReleased(KeyEvent key) {
-//        manager.keyReleased(key);
-//    }
-//    
-//        @Override
-//    public void keyTyped(KeyEvent e) {
-//        
-//    }
     
 }

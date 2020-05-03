@@ -81,9 +81,9 @@ public class Pisodos extends Modelo {
     }
 
     public void renderturtle(Graphics2D g2d) {
-        g2d.setColor(Color.red);
+//        g2d.setColor(Color.red);
         super.render(g2d, tortuga[iterador]);
-        g2d.drawRect(x, y, width, height);
+//        g2d.drawRect(x, y, width, height);
     }
 
     public boolean isType() {

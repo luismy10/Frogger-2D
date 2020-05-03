@@ -52,8 +52,8 @@ public class Modelo {
 
     public void render(Graphics2D g2d) {
         g2d.drawImage(imagen, x, y, width, height, null);
-        g2d.setColor(Color.red);
-        g2d.drawRect(x, y, width, height);
+//        g2d.setColor(Color.red);
+//        g2d.drawRect(x, y, width, height);
     }
 
     public void render(Graphics2D g2d, Image turtle) {

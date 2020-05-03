@@ -1,11 +1,9 @@
 package entity;
 
 import game.WindowCanvas;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
@@ -15,13 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import util.Keyboard;
-import util.Sound;
-import util.Tools;
 
 public class Player {
 
-    private enum FrogState {
-        CALM, MOVE, DIED, OVER, WIN
+    public enum FrogState {
+        CALM, MOVE, DIED, STOP, WIN
     }
 
     private FrogState frogState = FrogState.CALM;
@@ -34,7 +30,7 @@ public class Player {
     private double dx;
     private double dy;
     private final double speed;
-    private boolean win;
+    private boolean visible;
 
     private final Map<String, Image[]> animations;
     public Image[] frames;
@@ -69,7 +65,7 @@ public class Player {
         frameIndex = 0;
         posxAnimation = 0;
 
-        win = false;
+        visible = true;
 
     }
 
@@ -99,6 +95,12 @@ public class Player {
         }
     }
 
+    public void died() {
+        changeFrogState(FrogState.DIED);
+        frameIndex = 0;
+        setMovimiento("frog_dying_");
+    }
+
     public void update(double delta) {
         switch (frogState) {
             case CALM:
@@ -126,6 +128,7 @@ public class Player {
                     }
                     if (!ok) {
                         changeFrogState(FrogState.DIED);
+                        frameIndex = 0;
                         setMovimiento("frog_dying_");
                     }
                 }
@@ -139,8 +142,8 @@ public class Player {
                 }
 
                 break;
-            case OVER:
-
+            case STOP:
+                updateStop();
                 break;
             case MOVE:
                 updateJumping();
@@ -183,17 +186,28 @@ public class Player {
         int frame = (int) (frameIndex / 15);
         posxAnimation = frame == 4 ? 0 : frame;
         if (frame > 3) {
+            changeFrogState(FrogState.STOP);
+            frameIndex = 0;
+        }
+    }
+
+    private void updateStop() {
+        visible = false;
+        frameIndex++;
+        int frame = (int) (frameIndex / 15);
+        if (frame > 3) {
+            visible = true;
             changeFrogState(FrogState.CALM);
             reset();
         }
     }
 
     private void updateWin() {
-        win = true;
+        visible = false;
         frameIndex++;
         int frame = (int) (frameIndex / 15);
         if (frame > 3) {
-            win = false;
+            visible = true;
             changeFrogState(FrogState.CALM);
             reset();
         }
@@ -209,6 +223,7 @@ public class Player {
     }
 
     private void reset() {
+        frameIndex = 0;
         x = (WindowCanvas.WIDTHCANVAS - w) / 2;
         y = 226 * 2;
         frames = animations.get("frog_up_");
@@ -230,34 +245,16 @@ public class Player {
     }
 
     public void render(Graphics2D g2d) {
-        if (!win) {
+        if (visible) {
             g2d.drawImage(frames[posxAnimation], x, y, w, h, null);
-            g2d.setColor(Color.red);
-            g2d.drawRect(x, y, w, h);
-        }
-
-    }
-
-    public void keypressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                move(0, -1);
-                break;
-            case KeyEvent.VK_DOWN:
-                move(0, 1);
-                break;
-            case KeyEvent.VK_LEFT:
-                move(-1, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-                move(1, 0);
-                break;
-            default:
-                break;
+//            g2d.setColor(Color.red);
+//            g2d.drawRect(x, y, w, h);
         }
     }
 
-    public void keyReleased(KeyEvent e) {
-
+    public boolean isVisible() {
+        return visible;
     }
+    
+
 }

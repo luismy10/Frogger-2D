@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import states.Manager;
 import states.State;
@@ -18,7 +17,7 @@ public class SplashScreen extends State{
     private int speed;
     private int speedy;
     private int inicio;
-    private final Sound sound;
+//    private final Sound sound;
 
     private boolean stopTitle;
     private final String title[] = {"M", "a", "m", "i", " ", "l", "l", "e", "g", "o", " ", "t", "u", " ", "t", "i", "b", "u", "r", "ó", "n", " ", "a", "i", "u", "d", "a", "!", "!", "!", "!"};
@@ -38,9 +37,9 @@ public class SplashScreen extends State{
         speedy = 1;
         iterador = 0;
         inicio = -1;
-
-        sound = new Sound("/sound/tiburon-cut.wav");
-        sound.music();
+//
+//        sound = new Sound("/sound/tiburon-cut.wav");
+//        sound.music();
         
         stopTitle = false;
         auxiliar = "";
@@ -57,7 +56,7 @@ public class SplashScreen extends State{
               speedy =0 ;
               if(inicio == title.length-1){
                   stopTitle=true;
-                  sound.stop();
+//                  sound.stop();
                   manager.getStacks().pop();
                   manager.getStacks().push(new Menu(manager));
               }
@@ -78,16 +77,6 @@ public class SplashScreen extends State{
         g2d.setColor(Color.white);
         g2d.drawString(auxiliar, 90, 200);
         g2d.drawImage(tiburones[iterador], (WindowCanvas.WIDTHCANVAS - 128) / 2, (WindowCanvas.HEIGHTCANVAS - 128) / 2 + 100, null);    
-    }
-
-    @Override
-    public void keyPressed(KeyEvent key) {
-        
-    }
-
-    @Override
-    public void keyReleased(KeyEvent key) {
-        
     }
 
 }

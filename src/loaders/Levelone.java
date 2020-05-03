@@ -1,36 +1,46 @@
 package loaders;
 
-import entity.Modelo;
 import entity.Pisodos;
 import entity.Pisouno;
 import entity.Player;
 import entity.River;
 import entity.Winner;
 import game.WindowCanvas;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import states.Manager;
 import states.State;
+import util.FontImage;
 
 public class Levelone extends State {
 
-    private Image background;
+    private final Image background;
 
-    private Player player;
+    private final Player player;
 
-    private River river;
+    private final River river;
 
-    private ArrayList<Pisouno> pisounos;
+    private final ArrayList<Pisouno> pisounos;
 
-    private ArrayList<Pisodos> pisodoses;
-    
-    private Winner[] winner;
+    private final ArrayList<Pisodos> pisodoses;
+
+    private final Winner[] winner;
+
+    private final FontImage fontImage;
+
+    private long time;
+
+    private double timeSpeed;
+
+    private boolean state;
 
     public Levelone(Manager manager) {
         super(manager);
+
+        fontImage = new FontImage("/image/bitmap.png", 16, 6);
 
         background = new ImageIcon(getClass().getResource("/image/background.png")).getImage();
         river = new River();
@@ -68,7 +78,7 @@ public class Levelone extends State {
             Pisodos turtle_a3 = new Pisodos(32 * (i + 8), 225, 30, 30, 2, "left", true, false);
             turtle_a3.tortuga();
             pisodoses.add(turtle_a3);
-            
+
         }
 
         for (short i = 0; i < 2; i++) {
@@ -79,19 +89,19 @@ public class Levelone extends State {
             Pisodos turtle_b1 = new Pisodos(32 * i, 130, 30, 30, 1, "left", true, true);
             turtle_b1.tortuga();
             pisodoses.add(turtle_b1);
-            
+
             Pisodos turtle_b2 = new Pisodos(32 * (i + 3), 130, 30, 30, 1, "left", true, false);
             turtle_b2.tortuga();
             pisodoses.add(turtle_b2);
-            
+
             Pisodos turtle_b3 = new Pisodos(32 * (i + 6), 130, 30, 30, 1, "left", true, false);
             turtle_b3.tortuga();
             pisodoses.add(turtle_b3);
-            
+
             Pisodos turtle_b4 = new Pisodos(32 * (i + 9), 130, 30, 30, 1, "left", true, false);
             turtle_b4.tortuga();
             pisodoses.add(turtle_b4);
-            
+
             Pisodos turtle_b5 = new Pisodos(32 * (i + 12), 130, 30, 30, 1, "left", true, false);
             turtle_b5.tortuga();
             pisodoses.add(turtle_b5);
@@ -109,7 +119,7 @@ public class Levelone extends State {
         pisodoses.add(new Pisodos(128, 103, "/image/log_0.png", 84, 20, 1, "right"));
         pisodoses.add(new Pisodos(156, 103, "/image/log_0.png", 84, 20, 1, "right"));
         pisodoses.add(new Pisodos(384, 103, "/image/log_0.png", 84, 20, 1, "right"));
-        
+
         winner = new Winner[5];
         winner[0] = new Winner(13, 60, 37, 35);
         winner[1] = new Winner(109, 60, 37, 35);
@@ -118,10 +128,14 @@ public class Levelone extends State {
         winner[4] = new Winner(397, 60, 37, 35);
 
         player = new Player(28, 28);
-        player.setModeloCarros(pisounos);        
+        player.setModeloCarros(pisounos);
         player.setModeloTronquito(pisodoses);
-        player.setWinner(winner);        
-        
+        player.setWinner(winner);
+
+        time = 0;
+        timeSpeed = 0;
+
+        state = false;
     }
 
     @Override
@@ -137,12 +151,22 @@ public class Levelone extends State {
         });
 
         river.update(delta);
-        
-        for(Winner lol : winner){
+
+        for (Winner lol : winner) {
             lol.update(delta);
         }
 
         player.update(delta);
+
+        if (state) {
+            time++;
+            timeSpeed += 0.001;
+            if (timeSpeed >= 1) {
+                player.died();
+                timeSpeed = 0;
+                time = 0;
+            }
+        }
 
     }
 
@@ -164,21 +188,25 @@ public class Levelone extends State {
             }
 
         });
-        
-       for(Winner space :winner){
-           space.render(g2d);
-       }
+
+        for (Winner space : winner) {
+            space.render(g2d);
+        }
 
         player.render(g2d);
+
+        fontImage.drawText(g2d, getSecondsToString(), 10, 10, Color.WHITE);
+
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(144, WindowCanvas.HEIGHTCANVAS - 16, (int) (240 * timeSpeed), 16);
     }
 
-    @Override
-    public void keyPressed(KeyEvent key) {
-        player.keypressed(key);
+    public String getSecondsToString() {
+//        int minutes = (int) (time / 3600);
+//        int seconds = (int) ((time % 3600) / 60);  
+//        return seconds < 10 ? minutes + ":0" + seconds : minutes + ":" + seconds;
+        int seconds = (int) ((time % 3600) / 60);
+        return seconds < 10 ? "0" + seconds : "" + seconds;
     }
 
-    @Override
-    public void keyReleased(KeyEvent key) {
-        player.keyReleased(key);
-    }
 }

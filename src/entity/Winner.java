@@ -47,8 +47,8 @@ public class Winner {
 
     public void render(Graphics2D g2d) {
         if (!state_win) {
-            g2d.setColor(Color.red);
-            g2d.drawRect(x, y, width, height);
+//            g2d.setColor(Color.red);
+//            g2d.drawRect(x, y, width, height);
         } else {
             g2d.drawImage(frog_winner[iterador], x, y, width, height, null);
         }
