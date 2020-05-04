@@ -158,7 +158,7 @@ public class Levelone extends State {
 
         player.update(delta);
 
-        if (state) {
+        if (player.isVisible()) {
             time++;
             timeSpeed += 0.001;
             if (timeSpeed >= 1) {
